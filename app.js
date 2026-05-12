@@ -7,6 +7,18 @@ const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('Chismex Bot Activo 🔥 Ya quedó Cami!');
 });
+app.get('/webhook', (req, res) => {
+  const VERIFY_TOKEN = "chismex123";
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+  
+  if (mode && token === VERIFY_TOKEN) {
+    res.status(200).send(challenge);
+  } else {
+    res.sendStatus(403);
+  }
+});
 
 app.post('/webhook', (req, res) => {
   console.log('Mensaje de WhatsApp:', req.body);
